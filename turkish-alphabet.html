@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turkish Alphabet — A Love Letter in Letters</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0392B;
+    --cream: #FAF6F0;
+    --warm: #F2E8D9;
+    --gold: #B8860B;
+    --ink: #1A1208;
+    --soft: #8B7355;
+    --accent: #E8D5B7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Paper texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+
+  .flag-stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--red) 0%, #E74C3C 50%, var(--red) 100%);
+  }
+
+  .subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  h1 em {
+    color: var(--red);
+    font-style: italic;
+  }
+
+  .intro {
+    max-width: 520px;
+    margin: 20px auto 0;
+    font-size: 0.95rem;
+    color: var(--soft);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* Search / filter */
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 30px 20px 10px;
+  }
+
+  .search-wrap input {
+    background: var(--warm);
+    border: 1.5px solid var(--accent);
+    border-radius: 40px;
+    padding: 10px 22px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--ink);
+    width: 260px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-wrap input:focus { border-color: var(--red); }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 24px 60px;
+  }
+
+  .card {
+    background: var(--warm);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 22px 20px 18px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s;
+  }
+
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.08); }
+  .card:hover::before { transform: scaleX(1); }
+  .card.special { background: #FDF0ED; border-color: #F5C8BC; }
+  .card.special .badge { display: inline-block; }
+
+  .badge {
+    display: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    background: var(--red);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  .letter-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .letter-lower {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--soft);
+    line-height: 1;
+  }
+
+  .pronunciation {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gold);
+    margin: 6px 0 4px;
+    letter-spacing: 0.03em;
+  }
+
+  .sound-like {
+    font-size: 0.88rem;
+    color: var(--ink);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .example {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .ex-word { color: var(--red); font-weight: 500; }
+  .ex-meaning { color: var(--soft); font-style: italic; font-family: 'Lora', serif; }
+
+  /* play button */
+  .play-btn {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    transition: background 0.2s, transform 0.15s;
+    color: var(--red);
+  }
+  .play-btn:hover { background: var(--red); color: white; transform: scale(1.1); }
+
+  /* Tips section */
+  .tips {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+  }
+
+  .tips h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+
+  .tips h2 span { color: var(--red); font-style: italic; }
+
+  .tip-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 600px) { .tip-grid { grid-template-columns: 1fr; } }
+
+  .tip-card {
+    background: var(--warm);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+
+  .tip-card strong {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .tip-card p { font-size: 0.88rem; line-height: 1.6; color: var(--soft); }
+  .tip-card p em { color: var(--ink); font-style: normal; font-weight: bold; }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--soft);
+    border-top: 1px solid var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .hidden { display: none !important; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card { animation: fadeIn 0.4s ease both; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="flag-stripe"></div>
+  <p class="subtitle">A guide for American speakers</p>
+  <h1>The Turkish<br><em>Alphabet</em></h1>
+  <p class="intro">29 letters. Each one a door into a new world — and maybe into someone's heart. Click any card to hear the letter name.</p>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Search a letter or sound…" oninput="filterCards()">
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="tips">
+  <h2>Quick <span>Tips</span> for Americans</h2>
+  <div class="tip-grid">
+    <div class="tip-card">
+      <strong>Every letter is pronounced</strong>
+      <p>Unlike English, Turkish has no silent letters. <em>Every single letter</em> is spoken — always consistently.</p>
+    </div>
+    <div class="tip-card">
+      <strong>Vowels are pure</strong>
+      <p>Turkish vowels don't glide. "A" is always like in "spa", never like in "cake". Short and clean.</p>
+    </div>
+    <div class="tip-card">
+      <strong>Stress is light</strong>
+      <p>Turkish stress is gentle — usually on the <em>last syllable</em>. Don't hammer it like English.</p>
+    </div>
+    <div class="tip-card">
+      <strong>No TH, W, or X</strong>
+      <p>These English sounds don't exist in Turkish. The alphabet fills those gaps with unique letters like <em>Ş</em> and <em>Ğ</em>.</p>
+    </div>
+  </div>
+</div>
+
+<footer>Made with love · Turkish has 29 letters · 8 vowels, 21 consonants</footer>
+
+<script>
+const letters = [
+  { u:'A', l:'a', ipa:'[a]', sound:'Like "a" in spa or father', example:['araba','car'], special:false },
+  { u:'B', l:'b', ipa:'[b]', sound:'Same as English B', example:['baba','dad'], special:false },
+  { u:'C', l:'c', ipa:'[dʒ]', sound:'Like "j" in jump or "dg" in bridge', example:['cam','glass'], special:true },
+  { u:'Ç', l:'ç', ipa:'[tʃ]', sound:'Like "ch" in cheese or chair', example:['çay','tea'], special:true },
+  { u:'D', l:'d', ipa:'[d]', sound:'Same as English D', example:['deniz','sea'], special:false },
+  { u:'E', l:'e', ipa:'[e]', sound:'Like "e" in bed or red', example:['ekmek','bread'], special:false },
+  { u:'F', l:'f', ipa:'[f]', sound:'Same as English F', example:['fare','mouse'], special:false },
+  { u:'G', l:'g', ipa:'[g]', sound:'Like "g" in go — always hard, never soft', example:['göz','eye'], special:false },
+  { u:'Ğ', l:'ğ', ipa:'[ː]', sound:'Silent! It just stretches the vowel before it', example:['dağ','mountain'], special:true },
+  { u:'H', l:'h', ipa:'[h]', sound:'Like "h" in hello — always pronounced', example:['hava','air / weather'], special:false },
+  { u:'I', l:'ı', ipa:'[ɯ]', sound:'No English equal — like a grunt "uh" deep in throat', example:['ışık','light'], special:true },
+  { u:'İ', l:'i', ipa:'[i]', sound:'Like "ee" in see or feet', example:['iyi','good'], special:true },
+  { u:'J', l:'j', ipa:'[ʒ]', sound:'Like "s" in measure or "g" in beige', example:['jandarma','gendarmerie'], special:true },
+  { u:'K', l:'k', ipa:'[k]', sound:'Like "k" in key — crisp and clean', example:['kitap','book'], special:false },
+  { u:'L', l:'l', ipa:'[l]', sound:'Like "l" in love — lighter than English', example:['lale','tulip'], special:false },
+  { u:'M', l:'m', ipa:'[m]', sound:'Same as English M', example:['mavi','blue'], special:false },
+  { u:'N', l:'n', ipa:'[n]', sound:'Same as English N', example:['ne','what'], special:false },
+  { u:'O', l:'o', ipa:'[o]', sound:'Like "o" in order — pure, no glide', example:['on','ten'], special:false },
+  { u:'Ö', l:'ö', ipa:'[ø]', sound:'Like German Ö or French "eu" in feu. Round your lips and say "e"', example:['öğretmen','teacher'], special:true },
+  { u:'P', l:'p', ipa:'[p]', sound:'Same as English P', example:['pazar','market'], special:false },
+  { u:'R', l:'r', ipa:'[r]', sound:'Lightly rolled, like Spanish R — not English R', example:['renk','color'], special:true },
+  { u:'S', l:'s', ipa:'[s]', sound:'Always like "s" in sun — never like "z"', example:['su','water'], special:false },
+  { u:'Ş', l:'ş', ipa:'[ʃ]', sound:'Like "sh" in shoe or she', example:['şeker','sugar'], special:true },
+  { u:'T', l:'t', ipa:'[t]', sound:'Like "t" in top — slightly softer than English', example:['tuz','salt'], special:false },
+  { u:'U', l:'u', ipa:'[u]', sound:'Like "oo" in moon — pure, round your lips', example:['uçak','airplane'], special:false },
+  { u:'Ü', l:'ü', ipa:'[y]', sound:'Like German Ü. Round lips for "oo", but say "ee"', example:['üzüm','grape'], special:true },
+  { u:'V', l:'v', ipa:'[v]', sound:'Like English V but softer, almost like W sometimes', example:['var','there is'], special:false },
+  { u:'Y', l:'y', ipa:'[j]', sound:'Like "y" in yes or yellow — always a consonant', example:['yol','road'], special:false },
+  { u:'Z', l:'z', ipa:'[z]', sound:'Same as English Z', example:['zaman','time'], special:false },
+];
+
+function buildCards() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  letters.forEach((lt, i) => {
+    const card = document.createElement('div');
+    card.className = 'card' + (lt.special ? ' special' : '');
+    card.style.animationDelay = (i * 0.03) + 's';
+    card.dataset.search = (lt.u + lt.l + lt.sound + lt.example[0] + lt.example[1]).toLowerCase();
+    card.innerHTML = `
+      <span class="badge">Unique to Turkish</span>
+      <button class="play-btn" title="Hear letter name" onclick="speak('${lt.u}', event)">▶</button>
+      <div class="letter-row">
+        <span class="letter">${lt.u}</span>
+        <span class="letter-lower">${lt.l}</span>
+      </div>
+      <div class="pronunciation">${lt.ipa}</div>
+      <div class="sound-like">${lt.sound}</div>
+      <div class="example">
+        <span class="ex-word">${lt.example[0]}</span>
+        <span class="ex-meaning">"${lt.example[1]}"</span>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function filterCards() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.toggle('hidden', q && !c.dataset.search.includes(q));
+  });
+}
+
+function speak(letter, e) {
+  e.stopPropagation();
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(letter);
+    u.lang = 'tr-TR';
+    u.rate = 0.8;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
+}
+
+buildCards();
+</script>
+</body>
+</html>
