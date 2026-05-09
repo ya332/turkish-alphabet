@@ -197,12 +197,34 @@
     font-size: 0.72rem;
     color: var(--soft);
     display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .example-top {
+    display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 8px;
   }
 
-  .ex-word { color: var(--red); font-weight: 500; }
+  .ex-word {
+    color: var(--red);
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .ex-word:hover { opacity: 0.7; }
+  .ex-word::after {
+    content: '▸';
+    font-size: 0.6rem;
+    color: var(--gold);
+  }
+  .ex-ipa { color: var(--gold); font-size: 0.72rem; letter-spacing: 0.02em; }
   .ex-meaning { color: var(--soft); font-style: italic; font-family: 'Lora', serif; }
 
   /* play button */
@@ -325,35 +347,35 @@
 
 <script>
 const letters = [
-  { u:'A', l:'a', ipa:'[a]', sound:'Like "a" in spa or father', example:['araba','car'], special:false },
-  { u:'B', l:'b', ipa:'[b]', sound:'Same as English B', example:['baba','dad'], special:false },
-  { u:'C', l:'c', ipa:'[dʒ]', sound:'Like "j" in jump or "dg" in bridge', example:['cam','glass'], special:true },
-  { u:'Ç', l:'ç', ipa:'[tʃ]', sound:'Like "ch" in cheese or chair', example:['çay','tea'], special:true },
-  { u:'D', l:'d', ipa:'[d]', sound:'Same as English D', example:['deniz','sea'], special:false },
-  { u:'E', l:'e', ipa:'[e]', sound:'Like "e" in bed or red', example:['ekmek','bread'], special:false },
-  { u:'F', l:'f', ipa:'[f]', sound:'Same as English F', example:['fare','mouse'], special:false },
-  { u:'G', l:'g', ipa:'[g]', sound:'Like "g" in go — always hard, never soft', example:['göz','eye'], special:false },
-  { u:'Ğ', l:'ğ', ipa:'[ː]', sound:'Silent! It just stretches the vowel before it', example:['dağ','mountain'], special:true },
-  { u:'H', l:'h', ipa:'[h]', sound:'Like "h" in hello — always pronounced', example:['hava','air / weather'], special:false },
-  { u:'I', l:'ı', ipa:'[ɯ]', sound:'No English equal — like a grunt "uh" deep in throat', example:['ışık','light'], special:true },
-  { u:'İ', l:'i', ipa:'[i]', sound:'Like "ee" in see or feet', example:['iyi','good'], special:true },
-  { u:'J', l:'j', ipa:'[ʒ]', sound:'Like "s" in measure or "g" in beige', example:['jandarma','gendarmerie'], special:true },
-  { u:'K', l:'k', ipa:'[k]', sound:'Like "k" in key — crisp and clean', example:['kitap','book'], special:false },
-  { u:'L', l:'l', ipa:'[l]', sound:'Like "l" in love — lighter than English', example:['lale','tulip'], special:false },
-  { u:'M', l:'m', ipa:'[m]', sound:'Same as English M', example:['mavi','blue'], special:false },
-  { u:'N', l:'n', ipa:'[n]', sound:'Same as English N', example:['ne','what'], special:false },
-  { u:'O', l:'o', ipa:'[o]', sound:'Like "o" in order — pure, no glide', example:['on','ten'], special:false },
-  { u:'Ö', l:'ö', ipa:'[ø]', sound:'Like German Ö or French "eu" in feu. Round your lips and say "e"', example:['öğretmen','teacher'], special:true },
-  { u:'P', l:'p', ipa:'[p]', sound:'Same as English P', example:['pazar','market'], special:false },
-  { u:'R', l:'r', ipa:'[r]', sound:'Lightly rolled, like Spanish R — not English R', example:['renk','color'], special:true },
-  { u:'S', l:'s', ipa:'[s]', sound:'Always like "s" in sun — never like "z"', example:['su','water'], special:false },
-  { u:'Ş', l:'ş', ipa:'[ʃ]', sound:'Like "sh" in shoe or she', example:['şeker','sugar'], special:true },
-  { u:'T', l:'t', ipa:'[t]', sound:'Like "t" in top — slightly softer than English', example:['tuz','salt'], special:false },
-  { u:'U', l:'u', ipa:'[u]', sound:'Like "oo" in moon — pure, round your lips', example:['uçak','airplane'], special:false },
-  { u:'Ü', l:'ü', ipa:'[y]', sound:'Like German Ü. Round lips for "oo", but say "ee"', example:['üzüm','grape'], special:true },
-  { u:'V', l:'v', ipa:'[v]', sound:'Like English V but softer, almost like W sometimes', example:['var','there is'], special:false },
-  { u:'Y', l:'y', ipa:'[j]', sound:'Like "y" in yes or yellow — always a consonant', example:['yol','road'], special:false },
-  { u:'Z', l:'z', ipa:'[z]', sound:'Same as English Z', example:['zaman','time'], special:false },
+  { u:'A', l:'a', ipa:'[a]', sound:'Like "a" in spa or father', example:['kabak','[kaˈbak]','squash','kabak.mp3'], special:false },
+  { u:'B', l:'b', ipa:'[b]', sound:'Same as English B', example:['bebek','[beˈbec]','baby','bebek.mp3'], special:false },
+  { u:'C', l:'c', ipa:'[dʒ]', sound:'Like "j" in jump or "dg" in bridge', example:['ocak','[oˈdʒak]','stove / January','ocak.mp3'], special:true },
+  { u:'Ç', l:'ç', ipa:'[tʃ]', sound:'Like "ch" in cheese or chair', example:['çivi','[tʃiˈvi]','nail','civi.mp3'], special:true },
+  { u:'D', l:'d', ipa:'[d]', sound:'Same as English D', example:['madde','[madˈde]','matter / substance','madde.mp3'], special:false },
+  { u:'E', l:'e', ipa:'[e]', sound:'Like "e" in bed or red', example:['erkek','[æɾˈcec]','man','erkek.mp3'], special:false },
+  { u:'F', l:'f', ipa:'[f]', sound:'Same as English F', example:['far','[faɾ]','headlight','far.mp3'], special:false },
+  { u:'G', l:'g', ipa:'[g]', sound:'Like "g" in go — always hard, never soft', example:['gam','[ɡam]','scale (music)','gam.mp3'], special:false },
+  { u:'Ğ', l:'ğ', ipa:'[ː]', sound:'Silent! It just stretches the vowel before it', example:['oğlan','[oːˈɫan]','boy','oglan.mp3'], special:true },
+  { u:'H', l:'h', ipa:'[h]', sound:'Like "h" in hello — always pronounced', example:['anahtar','[anahˈtaɾ]','key','anahtar.mp3'], special:false },
+  { u:'I', l:'ı', ipa:'[ɯ]', sound:'No English equal — like a grunt "uh" deep in throat', example:['kış','[kɯʃ]','winter','kis.mp3'], special:true },
+  { u:'İ', l:'i', ipa:'[i]', sound:'Like "ee" in see or feet', example:['çivi','[tʃiˈvi]','nail','civi.mp3'], special:true },
+  { u:'J', l:'j', ipa:'[ʒ]', sound:'Like "s" in measure or "g" in beige', example:['jilet','[ʒiˈlet]','razor blade','jilet.mp3'], special:true },
+  { u:'K', l:'k', ipa:'[k]', sound:'Like "k" in key — crisp and clean', example:['kabak','[kaˈbak]','squash','kabak.mp3'], special:false },
+  { u:'L', l:'l', ipa:'[l]', sound:'Like "l" in love — lighter than English', example:['bilinç','[biˈlintʃ]','consciousness','bilinc.mp3'], special:false },
+  { u:'M', l:'m', ipa:'[m]', sound:'Same as English M', example:['cuma','[dʒuˈma]','Friday','cuma.mp3'], special:false },
+  { u:'N', l:'n', ipa:'[n]', sound:'Same as English N', example:['nesne','[nesˈne]','object','nesne.mp3'], special:false },
+  { u:'O', l:'o', ipa:'[o]', sound:'Like "o" in order — pure, no glide', example:['tokmak','[tokˈmak]','mallet','tokmak.mp3'], special:false },
+  { u:'Ö', l:'ö', ipa:'[ø]', sound:'Like German Ö or French "eu" in feu. Round your lips and say "e"', example:['özgürlük','[øzɟyɾˈlyc]','freedom','ozgurluk.mp3'], special:true },
+  { u:'P', l:'p', ipa:'[p]', sound:'Same as English P', example:['pazar','[paˈzaɾ]','Sunday / market','pazar.mp3'], special:false },
+  { u:'R', l:'r', ipa:'[r]', sound:'Lightly rolled, like Spanish R — not English R', example:['anahtarlar','[anahtaɾˈɫaɾ]','keys','anahtarlar.mp3'], special:true },
+  { u:'S', l:'s', ipa:'[s]', sound:'Always like "s" in sun — never like "z"', example:['sinek','[siˈnec]','fly (insect)','sinek.mp3'], special:false },
+  { u:'Ş', l:'ş', ipa:'[ʃ]', sound:'Like "sh" in shoe or she', example:['kişi','[ciˈʃi]','person','kisi.mp3'], special:true },
+  { u:'T', l:'t', ipa:'[t]', sound:'Like "t" in top — slightly softer than English', example:['Türkçe','[ˈtyɾctʃe]','Turkish','turkce.mp3'], special:false },
+  { u:'U', l:'u', ipa:'[u]', sound:'Like "oo" in moon — pure, round your lips', example:['ruh','[ɾuh]','soul','ruh.mp3'], special:false },
+  { u:'Ü', l:'ü', ipa:'[y]', sound:'Like German Ü. Round lips for "oo", but say "ee"', example:['Türkçe','[ˈtyɾctʃe]','Turkish','turkce.mp3'], special:true },
+  { u:'V', l:'v', ipa:'[v]', sound:'Like English V but softer, almost like W sometimes', example:['vücut','[vyˈdʒut]','body','vucut.mp3'], special:false },
+  { u:'Y', l:'y', ipa:'[j]', sound:'Like "y" in yes or yellow — always a consonant', example:['hayat','[haˈjat]','life','hayat.mp3'], special:false },
+  { u:'Z', l:'z', ipa:'[z]', sound:'Same as English Z', example:['pazar','[paˈzaɾ]','Sunday / market','pazar.mp3'], special:false },
 ];
 
 function buildCards() {
@@ -363,7 +385,7 @@ function buildCards() {
     const card = document.createElement('div');
     card.className = 'card' + (lt.special ? ' special' : '');
     card.style.animationDelay = (i * 0.03) + 's';
-    card.dataset.search = (lt.u + lt.l + lt.sound + lt.example[0] + lt.example[1]).toLowerCase();
+    card.dataset.search = (lt.u + lt.l + lt.sound + lt.example[0] + lt.example[2]).toLowerCase();
     card.innerHTML = `
       <span class="badge">Unique to Turkish</span>
       <button class="play-btn" title="Hear letter name" onclick="speak('${lt.u}', event)">▶</button>
@@ -374,8 +396,11 @@ function buildCards() {
       <div class="pronunciation">${lt.ipa}</div>
       <div class="sound-like">${lt.sound}</div>
       <div class="example">
-        <span class="ex-word">${lt.example[0]}</span>
-        <span class="ex-meaning">"${lt.example[1]}"</span>
+        <div class="example-top">
+          <span class="ex-word" onclick="speakWord('${lt.example[3]}', event)" title="Hear word">${lt.example[0]}</span>
+          <span class="ex-meaning">"${lt.example[2]}"</span>
+        </div>
+        <span class="ex-ipa">${lt.example[1]}</span>
       </div>
     `;
     grid.appendChild(card);
@@ -399,13 +424,21 @@ const audioFiles = {
 };
 
 let currentAudio = null;
+function playFile(path) {
+  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+  currentAudio = new Audio(path);
+  currentAudio.play();
+}
 function speak(letter, e) {
   e.stopPropagation();
   const file = audioFiles[letter];
   if (!file) return;
-  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
-  currentAudio = new Audio('audio/' + file);
-  currentAudio.play();
+  playFile('audio/' + file);
+}
+function speakWord(file, e) {
+  e.stopPropagation();
+  if (!file) return;
+  playFile('audio/words/' + file);
 }
 
 buildCards();
