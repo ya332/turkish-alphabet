@@ -389,10 +389,18 @@ function filterCards() {
   });
 }
 
+const letterNames = {
+  'A':'a', 'B':'be', 'C':'ce', 'Ç':'çe', 'D':'de', 'E':'e',
+  'F':'fe', 'G':'ge', 'Ğ':'yumuşak ge', 'H':'he', 'I':'ı', 'İ':'i',
+  'J':'je', 'K':'ke', 'L':'le', 'M':'me', 'N':'ne', 'O':'o',
+  'Ö':'ö', 'P':'pe', 'R':'re', 'S':'se', 'Ş':'şe', 'T':'te',
+  'U':'u', 'Ü':'ü', 'V':'ve', 'Y':'ye', 'Z':'ze'
+};
+
 function speak(letter, e) {
   e.stopPropagation();
   if ('speechSynthesis' in window) {
-    const u = new SpeechSynthesisUtterance(letter);
+    const u = new SpeechSynthesisUtterance(letterNames[letter] || letter);
     u.lang = 'tr-TR';
     u.rate = 0.8;
     speechSynthesis.cancel();
