@@ -389,23 +389,23 @@ function filterCards() {
   });
 }
 
-const letterNames = {
-  'A':'a', 'B':'be', 'C':'ce', 'Ç':'çe', 'D':'de', 'E':'e',
-  'F':'fe', 'G':'ge', 'Ğ':'yumuşak ge', 'H':'he', 'I':'ı', 'İ':'i',
-  'J':'je', 'K':'ke', 'L':'le', 'M':'me', 'N':'ne', 'O':'o',
-  'Ö':'ö', 'P':'pe', 'R':'re', 'S':'se', 'Ş':'şe', 'T':'te',
-  'U':'u', 'Ü':'ü', 'V':'ve', 'Y':'ye', 'Z':'ze'
+const audioFiles = {
+  'A':'A.mp3', 'B':'B.mp3', 'C':'C.mp3', 'Ç':'C_.mp3', 'D':'D.mp3',
+  'E':'E.mp3', 'F':'F.mp3', 'G':'G.mp3', 'Ğ':'G_.mp3', 'H':'H.mp3',
+  'I':'I.mp3', 'İ':'I_.mp3', 'J':'J.mp3', 'K':'K.mp3', 'L':'L.mp3',
+  'M':'M.mp3', 'N':'N.mp3', 'O':'O.mp3', 'Ö':'O_.mp3', 'P':'P.mp3',
+  'R':'R.mp3', 'S':'S.mp3', 'Ş':'S_.mp3', 'T':'T.mp3', 'U':'U.mp3',
+  'Ü':'U_.mp3', 'V':'V.mp3', 'Y':'Y.mp3', 'Z':'Z.mp3'
 };
 
+let currentAudio = null;
 function speak(letter, e) {
   e.stopPropagation();
-  if ('speechSynthesis' in window) {
-    const u = new SpeechSynthesisUtterance(letterNames[letter] || letter);
-    u.lang = 'tr-TR';
-    u.rate = 0.8;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
-  }
+  const file = audioFiles[letter];
+  if (!file) return;
+  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+  currentAudio = new Audio('audio/' + file);
+  currentAudio.play();
 }
 
 buildCards();
